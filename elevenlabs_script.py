@@ -1,3 +1,9 @@
+raw_input = "hellomynameiskot"
+
+#use llama to add spaces
+
+
+
 # Import necessary libraries
 import requests  # Used for making HTTP requests
 import json  # Used for working with JSON data
@@ -5,8 +11,8 @@ import json  # Used for working with JSON data
 # Define constants for the script
 CHUNK_SIZE = 1024  # Size of chunks to read/write at a time
 XI_API_KEY = "sk_11c8dffc33930f10a61ec0b458405a969cd27c9b8bcc9190"  # Your API key for authentication
-VOICE_ID = "ZQe5CZNOzWyzPSCn5a3c"  # ID of the voice model to use
-TEXT_TO_SPEAK = "hello this is a test"  # Text you want to convert to speech
+VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # ID of the voice model to use
+TEXT_TO_SPEAK = "hellomynameiskot"  # Text you want to convert to speech
 OUTPUT_PATH = "output.mp3"  # Path to save the output audio file
 
 #VOICE IDs
