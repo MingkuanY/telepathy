@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* font sizes */
+
+@media (max-width: 2000px), (max-height: 1100px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 1500px), (max-height: 950px) {
+  html {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 1400px), (max-height: 900px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1300px), (max-height: 800px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 1150px), (max-height: 800px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 1000px), (max-height: 700px) {
+  html {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 900px), (max-height: 700px) {
+  html {
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 760px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 680px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 520px) {
+  html {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 440px) {
+  html {
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  html {
+    font-size: 5px;
+  }
+}
+
+button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: start;
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+input {
+  border: none;
+  font-family: inherit;
+
+  &::placeholder {
+    font-family: inherit;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+textarea {
+  resize: none;
+  font-family: inherit;
+
+  &::placeholder {
+    font-family: inherit;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
