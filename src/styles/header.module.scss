@@ -1,0 +1,48 @@
+@use "./mixin" as mixin;
+
+.logoContainer {
+  position: absolute;
+  margin-left: 10rem;
+  height: mixin.$header-height;
+  display: flex;
+  align-items: center;
+
+  .telepathy {
+    color: mixin.$white;
+    font-size: 4rem;
+    font-weight: 300;
+    text-shadow: 0 0 1rem mixin.$telepathic-purple,
+      0 0 2rem mixin.$telepathic-purple, 0 0 3rem mixin.$telepathic-purple;
+  }
+
+  .morse {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 3rem;
+
+    .line {
+      display: flex;
+      align-items: center;
+
+      .dot,
+      .dash {
+        height: 0.4rem;
+        border-radius: 0.2rem;
+        background-color: mixin.$white;
+        margin-right: 0.3rem;
+        box-shadow: 0 0 0.5rem mixin.$telepathic-purple,
+          0 0 1rem mixin.$telepathic-purple, 0 0 1.5rem mixin.$telepathic-purple;
+      }
+
+      .dot {
+        width: 0.3rem;
+      }
+
+      .dash {
+        width: 2rem;
+      }
+    }
+  }
+}

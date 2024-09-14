@@ -1,1 +1,21 @@
 @use "./mixin" as mixin;
+
+.main {
+  background: linear-gradient(to bottom, #000 75%, #9868ff 100%);
+  height: 100vh;
+
+  .genContainer {
+    margin: 0 10rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .sentence {
+      font-size: 5rem;
+      color: mixin.$white;
+      text-shadow: 0 0 1rem mixin.$telepathic-purple,
+        0 0 2rem mixin.$telepathic-purple, 0 0 3rem mixin.$telepathic-purple;
+    }
+  }
+}
