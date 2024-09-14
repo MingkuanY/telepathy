@@ -4,13 +4,16 @@ import requests
 import base64
 import json
 
+#INPUT USER QUERY BELOW:
+user_query = "Giant concrete blocks that spell HACK MIT with the word 'HACK' on top of the word 'MIT' in a dense forest"
+
 MODEL_ID = "7qk7m1dw"
 BASETEN_API_KEY = "YMKFudUr.FcjOTi13DlaR3ZtCbBIumoXeqFJy25yx" # Paste from Discord
 
 # Should take ~20 seconds, see link below for faster models
 
 payload = {
-    "prompt": "Giant concrete blocks that spell HACK MIT with the word 'HACK' on top of the word 'MIT' in a dense forest",
+    "prompt": user_query,
     "steps": 50
 }
 
