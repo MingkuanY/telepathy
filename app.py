@@ -60,28 +60,25 @@ def w():
     
 @app.route('/j', methods=['POST'])
 def j():
-    try:
-        print("server requested")
-        # Call the function to get text and audio
-        result = generate_joke()
-        
-        # Check if the audio was generated successfully
-        if result['audio_data']:
-            # Save the audio data to a BytesIO object
-            audio_stream = io.BytesIO(result['audio_data'])
-            audio_stream.seek(0)  # Ensure the stream is at the beginning
+    print("server requested")
+    # Call the function to get text and audio
+    result = generate_joke()
+    
+    # Check if the audio was generated successfully
+    if result['audio_data']:
+        # Save the audio data to a BytesIO object
+        audio_stream = io.BytesIO(result['audio_data'])
+        audio_stream.seek(0)  # Ensure the stream is at the beginning
 
-            # Store the audio stream in the Flask app's config for retrieval
-            app.config['AUDIO_STREAM'] = audio_stream
+        # Store the audio stream in the Flask app's config for retrieval
+        app.config['AUDIO_STREAM'] = audio_stream
+    
+    print("result: ", result);
 
-            # Return text and the URL to retrieve the audio
-            return jsonify({
-                'long_text': result['long_text'],
-                'summary': result['summary'],
-                'audio_url': '/audio'
-            }), 200
-        else:
-            return jsonify({'error': result['audio_status']}), 500
+    # Return text and the URL to retrieve the audio
+    return jsonify({
+        'long_text': result['long_text'],
+        'summary': result['summary']
+    }), 200
 
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+app.run(port=4000)
