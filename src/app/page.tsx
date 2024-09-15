@@ -15,6 +15,10 @@ export default function Home() {
   // Gets most recent character, checks if it is an action, calls the corresponding script if action and displays the result on the frontend
   useEffect(() => {
     console.log("new character detected");
+    if (characters.length >= 3 && characters.slice(-3) === "MOM") {
+      console.log("authenticated");
+      authenticated();
+    }
     const mostRecentChar = characters[characters.length - 1];
     if (actionCharacters.includes(mostRecentChar)) {
       // If the most recent character is 'w', fetch the weather data
@@ -85,6 +89,20 @@ export default function Home() {
       });
       const data = await res.json();
       console.log("post request to n ended");
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
+
+  // Function to fetch joke data and play audio
+  const authenticated = async () => {
+    try {
+      console.log("post request to a started");
+      const res = await fetch("http://localhost:4000/a", {
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log("post request to a ended");
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
