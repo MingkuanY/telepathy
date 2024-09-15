@@ -1,6 +1,3 @@
-## API Keys
-ElevenLabs: sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e
-
 ## Communicate Covertly
 Talk to another TELEPATHY device wearer without anybody knowing you are communicating.
 
