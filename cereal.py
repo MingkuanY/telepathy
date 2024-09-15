@@ -5,9 +5,11 @@ from scipy.fft import fft
 from scipy.signal import spectrogram
 import numpy as np
 import matplotlib.pyplot as plt
+import spike_detection
 
 second = 8900
 last_offset = 0
+symbols = None
 
 def plot_spectrogram(data, sampling_rate):
     data = np.array(data)
@@ -120,9 +122,9 @@ with open(filename, 'wb') as file:  # Changed to binary mode
             # morse_ouput = morse_like_encoding(find_clustered_ones(amplitude),
             #                     dash_threshold=8900/2,new_char_threshold=8900*2)
 
-
+            symbols = spike_detection.Translate.convert_stream_to_morse(clustered, symbols, last_offset)
             last_offset = len(spectrogram_data) - clustered[-1][0] if clustered else 0
-            print(clustered)
+            print(symbols)
 
 
     ser.close()

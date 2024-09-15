@@ -155,3 +155,13 @@ class Translate():
             result.append(character)
         
         return ''.join(result)
+<<<<<<< Updated upstream
+=======
+
+
+# data = [(4, 1913), (47, 1616), (91, 1939), (94, 1901), (108, 2002), (153, 2363), (198, 2270), (287, 1904), (355, 1050), (370, 1894)]
+# morse = Translate.convert_stream_to_morse(data, None)
+# english = Translate.convert_morse_word_to_english(morse)
+# print(morse)
+# print(english)
+>>>>>>> Stashed changes
