@@ -4,36 +4,33 @@ import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import styles from "../styles/home.module.scss";
 import classnames from "classnames";
-import { WeatherType, JokeType } from "@/types/types";
 
-const actionCharacters = "wnjscila";
+const actionCharacters = "WNJSCILA";
 
 export default function Home() {
   const [characters, setCharacters] = useState("generating thoughts...");
   const [charStyle, setCharStyle] = useState(true);
-  const [displayAction, setDisplayAction] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrollable container
-
-  const [weatherData, setWeatherData] = useState<WeatherType | null>(null); // Store weather data
-  const [jokeData, setJokeData] = useState<JokeType | null>(null); // Store joke data
 
   // Gets most recent character, checks if it is an action, calls the corresponding script if action and displays the result on the frontend
   useEffect(() => {
     console.log("new character detected");
     const mostRecentChar = characters[characters.length - 1];
     if (actionCharacters.includes(mostRecentChar)) {
-      setDisplayAction(true);
-
       // If the most recent character is 'w', fetch the weather data
-      if (mostRecentChar === "w") {
+      if (mostRecentChar === "W") {
         console.log("new character is w");
         fetchWeatherData();
-      } else if (mostRecentChar === "j") {
+      } else if (mostRecentChar === "J") {
         console.log("new character is j");
         fetchJokeData();
+      } else if (mostRecentChar === "S") {
+        console.log("new character is s");
+        fetchBankData();
+      } else if (mostRecentChar === "N") {
+        console.log("new character is n");
+        fetchNewsData();
       }
-    } else {
-      setDisplayAction(false);
     }
   }, [characters]);
 
@@ -46,11 +43,6 @@ export default function Home() {
       });
       const data = await res.json();
       console.log("post request to w ended");
-
-      if (data) {
-        setWeatherData(data); // Set the weather data
-        console.log("new data updated: ", data);
-      }
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -65,44 +57,67 @@ export default function Home() {
       });
       const data = await res.json();
       console.log("post request to j ended");
-
-      if (data) {
-        setJokeData(data); // Set the weather data
-        console.log("new data updated: ", data);
-      }
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
   };
 
-  const renderContent = (char: string) => {
-    switch (char) {
-      case "w":
-        return (
-          <div className={styles.verticalContainer}>
-            {/* <p className={styles.largeText}>
-              72°F
-            </p>
-            <p className={styles.smallText}>
-              Cambridge, Massachusetts
-            </p> */}
-            <p className={styles.smallText}>
-              {weatherData && weatherData.summary}
-            </p>
-          </div>
-        );
-      case "j":
-        return (
-          <div className={styles.verticalContainer}>
-            <p className={styles.smallText}>{jokeData?.joke}</p>
-          </div>
-        );
-      case "Sign In":
-        return <div>Sign In Successful</div>;
-      case "Sign Out":
-        return <div>Sign Out Successful</div>;
+  // Function to fetch joke data and play audio
+  const fetchBankData = async () => {
+    try {
+      console.log("post request to s started");
+      const res = await fetch("http://localhost:4000/s", {
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log("post request to s ended");
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
     }
   };
+
+  // Function to fetch joke data and play audio
+  const fetchNewsData = async () => {
+    try {
+      console.log("post request to n started");
+      const res = await fetch("http://localhost:4000/n", {
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log("post request to n ended");
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
+
+  // const renderContent = (char: string) => {
+  //   switch (char) {
+  //     case "w":
+  //       return (
+  //         <div className={styles.verticalContainer}>
+  //           {/* <p className={styles.largeText}>
+  //             72°F
+  //           </p>
+  //           <p className={styles.smallText}>
+  //             Cambridge, Massachusetts
+  //           </p> */}
+  //           <p className={styles.smallText}>
+  //             {weatherData && weatherData.summary}
+  //           </p>
+  //         </div>
+  //       );
+  //     case "j":
+  //       return (
+  //         <div className={styles.verticalContainer}>
+  //           <p className={styles.smallText}>{jokeData?.joke}</p>
+  //         </div>
+  //       );
+  //     case "Sign In":
+  //       return <div>Sign In Successful</div>;
+  //     case "Sign Out":
+  //       return <div>Sign Out Successful</div>;
+  //   }
+  // };
 
   // Fetch the characters from Flask
   useEffect(() => {
@@ -136,11 +151,11 @@ export default function Home() {
   return (
     <div className={styles.main} ref={containerRef}>
       <Header />
-      {displayAction && (
+      {/* {displayAction && (
         <div className={styles.dataDisplay}>
           {renderContent(characters[characters.length - 1])}
         </div>
-      )}
+      )} */}
       <div className={styles.genContainer}>
         <p
           className={classnames(
