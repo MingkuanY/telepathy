@@ -1,0 +1,10 @@
+{
+  "project": "uncommon-heron-546",
+  "functions": {
+    "codegen": true,
+    "path": "./convex"
+  },
+  "schema": {
+    "path": "./convex/schema.ts"
+  }
+}
