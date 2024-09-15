@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Tuple
 
 class Morse(Enum):
     DOT = 0
@@ -9,7 +9,21 @@ class Morse(Enum):
 class Translate():
     """
     Class containing all methods pertaining to translation of data to morse, to characters, and to actions.
+
+    Key Terms:
+    Dot: single morse code dot
+    Dash: single morse code dash
+    Space: pause that distingushes between clusters of dots and dashes. Each go to form a letter.
     """
+    
+    # CONSTANTS
+    DASH_INDEX_THRESHOLD = 20             # index offset between first spike and second spike that if less than is a dash, otherwise two dots.
+    SPACE_INDEX_THRESHOLD = 35    # index offset between two spikes representing a space seperating two clusters of morse symbols
+
+    INVALID_MAGNITUDE_THRESHOLD = 20_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
+
+    FIRST_SPIKE_MAGNITUDE_THRESHOLD = 1_000    # This is the threshold needed to start a new symbol with a spike
+    SECOND_SPIKE_MAGNITUDE_THRESHOLD = 1_000    # This is the threshold needed by a spike that follows a dot to make it into a dash
 
     MORSE_CODE_DICT = {
         (Morse.DOT, Morse.DASH): 'A',        # .-
@@ -51,15 +65,54 @@ class Translate():
     }
 
     @staticmethod
-    def convert_stream_to_morse(stream: List[int], prev_morse: List[Morse]) -> List[Morse]:
+    def convert_stream_to_morse(stream: List[Tuple[int, int]], prev_morse: Tuple[List[Morse], int]) -> List[Morse]:
         """
         Converts a stream of amplitude-time data (represented as integers) into a list of Morse code enums.
         
-        :param stream: A list of integers representing the amplitude-time data.
-        :param prev_morse: A list of previously converted morse code enums.
-        :return: A list of MorseEnum representing the morse code (DOT, DASH, SPACE).
+        :param stream: A list of tuples (int, int) representing the (index, amplitude) of every speak.
+        :param prev_morse: Tuple(A list of previously converted morse code enums, the index offset between the last spike and the end of the interval).
+        :return: A list of MorseEnum representing the cumulative morse code (DOT, DASH, SPACE). new_morse + prev_morse
         """
-        pass
+        result = []
+
+        prev_symbol, prev_index = None, float('inf')
+
+        if prev_morse:
+            prev_symbols, last_spike_offset = prev_morse # the most recent morse symbol generated, and the distance from the last spike to the interval
+
+            prev_symbol, prev_index = prev_symbols[-1], -last_spike_offset
+            result.append(prev_symbols[-1])
+            del prev_symbols[-1]
+
+        # Once first element has properly been merged with prev_morse, continue stream as normal
+
+        for index, magnitude in stream:
+            
+            print((index, magnitude), (prev_index, prev_symbol), result)
+
+            # if magnitude exceeds invalid threshold do not consider any spike which occurs after in this stream chunk
+            if (magnitude >= Translate.INVALID_MAGNITUDE_THRESHOLD):
+                break
+
+            # Convert spikes to morse symbols
+            if (prev_symbol is Morse.DOT) and (index - prev_index < Translate.DASH_INDEX_THRESHOLD) and (magnitude >= Translate.SECOND_SPIKE_MAGNITUDE_THRESHOLD):  # Previous Dot is now a Dash
+                del result[-1]              # delete dot
+                result.append(Morse.DASH)   # replace w dash
+                
+                prev_symbol, prev_index = result[-1], index
+                print("real")
+            else:
+                if (magnitude >= Translate.FIRST_SPIKE_MAGNITUDE_THRESHOLD):  # Gap between two dots is a space
+                    # if last dot was so long ago that there should be a space, put a space, then a dot.
+                    if (index - prev_index >= Translate.SPACE_INDEX_THRESHOLD):
+                        result.append(Morse.SPACE)
+                        print("true")
+                    result.append(Morse.DOT)
+                    print("based")
+                    prev_symbol, prev_index = result[-1], index
+
+        return result
+    
 
     @staticmethod
     def split_morse_seq_to_words(morse_stream: List[Morse]) -> List[List[Morse]]:
@@ -76,12 +129,12 @@ class Translate():
             if symbol == Morse.SPACE:
                 if letter:  # Only add non-empty words
                     result.append(letter)
-                    current_word = []
+                    letter = []
             else:
-                result.append(symbol)
+                letter.append(symbol)
         
-        if current_word:  # Append the last word if any
-            result.append(current_word)
+        if letter:  # Append the last word if any
+            result.append(letter)
 
         return result
 
@@ -94,7 +147,8 @@ class Translate():
         :return: A string of translated characters.
         """
         # Split the morse stream by spaces into individual morse sequences
-        morse_words = Translate.split_morse_by_spaces(morse_stream)
+        morse_words = Translate.split_morse_seq_to_words(morse_stream)
+        print(morse_words)
         result = []
         
         for word in morse_words:
@@ -103,3 +157,10 @@ class Translate():
             result.append(character)
         
         return ''.join(result)
+
+
+data = [(4, 1913), (47, 1616), (91, 1939), (94, 1901), (108, 2002), (153, 2363), (198, 2270), (287, 1904), (355, 1050), (370, 1894)]
+morse = Translate.convert_stream_to_morse(data, None)
+english = Translate.convert_morse_word_to_english(morse)
+print(morse)
+print(english)
