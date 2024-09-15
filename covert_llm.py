@@ -33,7 +33,7 @@ import requests  # Used for making HTTP requests
 
 # Define constants for the script
 CHUNK_SIZE = 1024  # Size of chunks to read/write at a time
-XI_API_KEY = "sk_11c8dffc33930f10a61ec0b458405a969cd27c9b8bcc9190"  # Your API key for authentication
+XI_API_KEY = "sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e"  # Elevenlabs API key for authentication
 VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # ID of the voice model to use
 TEXT_TO_SPEAK = res.text  # Text you want to convert to speech
 OUTPUT_PATH = "output_llm.mp3"  # Path to save the output audio file

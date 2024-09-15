@@ -1,5 +1,7 @@
-## Abilities
+## API Keys
+ElevenLabs: sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e
 
+## Abilities
 ### Communicate Covertly
 Talk to another TELEPATHY device wearer without anybody knowing you are communicating!
 
@@ -10,13 +12,14 @@ See `baseten_genImage.py`.
 Input: A string describing your image.
 Output: Image in `flux.png`.
 
-### Covert Ask LLM
+### Covert Ask LLM via BaseTen
 Query llama without the outside world knowing.
 
 See `covert_llm.py`.
 Input: a string that is your query.
 Output: Audio response in file `output_llm.mp3`, and optional text version of the restponse.
 
+Requires: elevenlabs API key
 
 ### Login - Quant WIP
 For the paranoid privacy people. Nobody will see you type your password. Integrated with Clerk Sign-In.
@@ -40,6 +43,14 @@ Customer # - Name - Account #
 66e5fef29683f20dd5189bd9 - Kot
 66e5ff1e9683f20dd5189bdb - Pranab
 
+
+### Whois? Lookup New Acquaintances via TuneHQ
+TuneHQ assistant performs google search on the requested person.
+
+Input: First and last name
+Output: Text description with short audio summary
+
+Requires: Elevenlabs API key, TuneHQ API key
 
 
 ### Sing a Song with Suno - TODO
