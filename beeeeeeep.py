@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.fft import fft
 from scipy.signal import spectrogram
 
-output_name = "C"
+output_name = "Ctalk"
 
 def read_data(filename):
     data = []
@@ -22,7 +22,7 @@ def plot_spectrogram(data, sampling_rate):
     
     low_pass_threshold_hz = 800
     low_pass_threshold = low_pass_threshold_hz // 35
-    f, Sxx = f[:low_pass_threshold], Sxx[:low_pass_threshold]
+    f, Sxx = f[1:low_pass_threshold], Sxx[1:low_pass_threshold]
 
     # breakpoint()
 
