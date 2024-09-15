@@ -4,11 +4,49 @@ import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import styles from "../styles/home.module.scss";
 import classnames from "classnames";
+import useFetchData from "../hooks/useFetchData";
+
+type Action =
+  | "Weather"
+  | "News"
+  | "Joke"
+  | "Show Deposits"
+  | "Create Deposits"
+  | "Image"
+  | "Covert LLM"
+  | "Whois"
+  | "Sign In"
+  | "Sign Out";
 
 export default function Home() {
   const [characters, setCharacters] = useState("generating thoughts...");
   const [charStyle, setCharStyle] = useState(true);
+  const [action, setAction] = useState<Action>("Weather"); // Example action
+  const data = useFetchData("/api/endpoint", action);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the scrollable container
+
+  const renderContent = () => {
+    switch (action) {
+      case "Weather":
+        return (
+          <div className={styles.verticalContainer}>
+            <p className={styles.largeText}>72°F</p>
+            <p className={styles.smallText}>Cambridge, Massachusetts</p>
+          </div>
+        );
+      case "Image":
+        return (
+          <div>
+            <h1>Image</h1>
+          </div>
+        );
+      case "Sign In":
+        return <div>Sign In Successful</div>;
+      case "Sign Out":
+        return <div>Sign Out Successful</div>;
+      // Handle other actions here
+    }
+  };
 
   // Fetch the characters from Flask
   useEffect(() => {
@@ -42,6 +80,7 @@ export default function Home() {
   return (
     <div className={styles.main} ref={containerRef}>
       <Header />
+      <div className={styles.dataDisplay}>{renderContent()}</div>
       <div className={styles.genContainer}>
         <p
           className={classnames(

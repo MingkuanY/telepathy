@@ -10,8 +10,8 @@ def generate_character():
     return random.choice(characters)
 
 # Function to send the character to the Flask server
-def send_character_to_flask(character):
-    url = "http://localhost:4000/receive_character"
+def send_character_to_flask(character, url_suffix="receive_character"):
+    url = f"http://localhost:4000/{url_suffix}"
     payload = json.dumps({"character": character})
     headers = {"Content-Type": "application/json"}
 
@@ -27,9 +27,15 @@ def generate_and_send_character():
     while True:
         # Generate a random character
         character = generate_character()
+
+        url_suffix = ""
+
+        match character:
+            case "w":
+                url_suffix = 'w'
         
         # Send the character to Flask
-        send_character_to_flask(character)
+        send_character_to_flask(character, url_suffix)
         
         # Wait for 2 seconds before generating the next character
         time.sleep(2)
