@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 second = 8900
+last_offset = 0
 
 def plot_spectrogram(data, sampling_rate):
     data = np.array(data)
@@ -23,21 +24,21 @@ def plot_spectrogram(data, sampling_rate):
 def plot_cumulative_amplitude(Sxx):
     # Calculate the cumulative amplitude by summing across frequencies
     cumulative_amplitude = np.sum(Sxx, axis=0)
-    binary = np.where(cumulative_amplitude > 7000, cumulative_amplitude, 0)
+    binary = np.where(cumulative_amplitude > 6500, 1, 0)
 
         # Plot the cumulative amplitude
-    # plt.figure(figsize=(10, 6))
-    # plt.plot(cumulative_amplitude)
-    # plt.title('Cumulative Amplitude Over Time')
-    # plt.xlabel('Time [s]')
-    # plt.ylabel('Cumulative Amplitude')
-    # plt.grid(True)
-    # plt.savefig(f"cumulative_amplitude_thing.png")
+    plt.figure(figsize=(10, 6))
+    plt.plot(cumulative_amplitude)
+    plt.title('Cumulative Amplitude Over Time')
+    plt.xlabel('Time [s]')
+    plt.ylabel('Cumulative Amplitude')
+    plt.grid(True)
+    plt.savefig(f"cumulative_amplitude_thing.png")
 
 
-    return binary
+    return binary, cumulative_amplitude
 
-def find_clustered_ones(binary_array):
+def find_clustered_ones(binary_array, orig_data):
     # Find the difference between consecutive elements
     diff = np.diff(binary_array)
     
@@ -47,8 +48,9 @@ def find_clustered_ones(binary_array):
     if binary_array[0] == 1:
         clustered_indices = np.insert(clustered_indices, 0, 0)
     
-    print(clustered_indices)
-    return [(e,binary_array[e]) for e in clustered_indices]
+    #print(clustered_indices)
+    pairs = [(e,orig_data[e]) for e in clustered_indices]
+    return pairs
     #return clustered_indices
 
 def morse_like_encoding(indices, dash_threshold=4400, new_char_threshold=8900*2):
@@ -104,15 +106,23 @@ with open(filename, 'wb') as file:  # Changed to binary mode
             for i in data.decode("utf-8").split("\n"):
                 if i.strip():
                     data_list.append(int(i.strip()))
+                    #print(data_list[-1])
                     counter+=1
-                    if len(data_list) > 89000 == 0:
+                    if len(data_list) > 89000:
                         del data_list[0]
         
-        if counter > 8900:
+        if counter > 89000:
             counter = 0
-            morse_ouput = morse_like_encoding(find_clustered_ones(plot_cumulative_amplitude(plot_spectrogram(data_list, 8900))),
-                                dash_threshold=8900/2,new_char_threshold=8900*2)
-            print(morse_ouput)
+            print(len(data_list))
+            spectrogram_data = plot_spectrogram(data_list, 8900)
+            amplitude, cumulative_amplitude = plot_cumulative_amplitude(spectrogram_data)
+            clustered = find_clustered_ones(amplitude, cumulative_amplitude)
+            # morse_ouput = morse_like_encoding(find_clustered_ones(amplitude),
+            #                     dash_threshold=8900/2,new_char_threshold=8900*2)
+
+
+            last_offset = len(spectrogram_data) - clustered[-1][0] if clustered else 0
+            print(clustered)
 
 
     ser.close()
