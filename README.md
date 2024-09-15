@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## API Keys
+ElevenLabs: sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e
 
-## Getting Started
+## Abilities
+### Communicate Covertly
+Talk to another TELEPATHY device wearer without anybody knowing you are communicating!
 
-First, run the development server:
+### Image Visualizer
+Describe your "thoughts" to a Flux model (hosted by Baseten). A picture is generated as if you were visualizing an image in your head.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+See `baseten_genImage.py`.
+Input: A string describing your image.
+Output: Image in `flux.png`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Covert Ask LLM via BaseTen
+Query llama without the outside world knowing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See `covert_llm.py`.
+Input: a string that is your query.
+Output: Audio response in file `output_llm.mp3`, and optional text version of the restponse.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Requires: elevenlabs API key
 
-## Learn More
+### Login - Quant WIP
+For the paranoid privacy people. Nobody will see you type your password. Integrated with Clerk Sign-In.
 
-To learn more about Next.js, take a look at the following resources:
+### Capital One Banking Data
+You can create a deposit or show all deposits. Nobody can see you enter bank information ever again.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Create deposit**: `capitalOne_deposit.py`
+Input: `amount` and `description`
+Output: Success message "You have successfully created a deposit"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Show deposits**: `capitalOne_deposit.py`
+Input: `amount` and `description`
+Output: Printout showing all deposits, each with fields: `transaction_date`, `amount`, `description`
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Sample Data:
+Customer # - Name - Account #
+66e5fdea9683f20dd5189bd3 - Alex - 66e601b79683f20dd5189be3 (Credit Card)
+66e5fec49683f20dd5189bd6 - Mingkuan
+66e5fef29683f20dd5189bd9 - Kot
+66e5ff1e9683f20dd5189bdb - Pranab
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Whois? Lookup New Acquaintances via TuneHQ
+TuneHQ assistant performs google search on the requested person.
+
+Input: First and last name
+Output: Text description with short audio summary
+
+Requires: Elevenlabs API key, TuneHQ API key
+
+
+### Sing a Song with Suno - TODO
+By default, generate a happy birthday song to expressively celebrate, even without the ability to vocalize audibly. You can also describe any song you would like to generate (ie. "Happy pop song about hacking")
+
+Potentially in the future: use tongue clicks to indicate desired BPM for more custom song.
+
+Input: "D" for default, or string descriptor of song.
+Output: mp3
