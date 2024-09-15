@@ -20,7 +20,7 @@ class Translate():
     DASH_INDEX_THRESHOLD = 37       # index offset between first spike and second spike that if less than is a dash, otherwise two dots.
     SPACE_INDEX_THRESHOLD = 150   # index offset between two spikes representing a space seperating two clusters of morse symbols
 
-    INVALID_MAGNITUDE_THRESHOLD = 20_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
+    INVALID_MAGNITUDE_THRESHOLD = 24_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
 
     FIRST_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed to start a new symbol with a spike
     SECOND_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed by a spike that follows a dot to make it into a dash
@@ -86,7 +86,7 @@ class Translate():
 
         for index, magnitude in stream:
             
-            print((index, magnitude), (prev_index, prev_symbol), result)
+            #print((index, magnitude), (prev_index, prev_symbol), result)
 
             # if magnitude exceeds invalid threshold do not consider any spike which occurs after in this stream chunk
             if (magnitude >= Translate.INVALID_MAGNITUDE_THRESHOLD):
@@ -98,15 +98,15 @@ class Translate():
                 result.append(Morse.DASH)   # replace w dash
                 
                 prev_symbol, prev_index = result[-1], index
-                print("real")
+                #print("real")
             else:
                 if (magnitude >= Translate.FIRST_SPIKE_MAGNITUDE_THRESHOLD):  # Gap between two dots is a space
                     # if last dot was so long ago that there should be a space, put a space, then a dot.
                     if (index - prev_index >= Translate.SPACE_INDEX_THRESHOLD):
                         result.append(Morse.SPACE)
-                        print("true")
+                        #print("true")
                     result.append(Morse.DOT)
-                    print("based")
+                    #print("based")
                     prev_symbol, prev_index = result[-1], index
 
         return prev_symbols + result if prev_symbols else result
@@ -146,7 +146,7 @@ class Translate():
         """
         # Split the morse stream by spaces into individual morse sequences
         morse_words = Translate.split_morse_seq_to_words(morse_stream)
-        print(morse_words)
+        #print(morse_words)
         result = []
         
         for word in morse_words:

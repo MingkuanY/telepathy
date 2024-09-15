@@ -6,14 +6,28 @@ from scipy.signal import spectrogram
 import numpy as np
 import matplotlib.pyplot as plt
 import spike_detection
+import requests
+import json
 
 second = 8900
 last_offset = 0
 symbols = None
 
+def send_character_to_flask(character):
+    url = "http://localhost:4000/receive_character"
+    payload = json.dumps({"character": character})
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+        response.raise_for_status()  # Raise exception if the request failed
+        success = "Successfully sent character to Flask"
+    except requests.exceptions.RequestException as e:
+        error = "Error sending character to Flask: {e}"
+
 def plot_spectrogram(data, sampling_rate):
     data = np.array(data)
-    print(len(data))
+    #print(len(data))
     # Compute the spectrogram
     f, t, Sxx = spectrogram(data, fs=sampling_rate)
     
@@ -52,7 +66,7 @@ def find_clustered_ones(binary_array, orig_data):
     
     #print(clustered_indices)
     pairs = [(e,orig_data[e]) for e in clustered_indices]
-    print(pairs)
+    #print(pairs)
     return pairs
     #return clustered_indices
 
@@ -116,7 +130,7 @@ with open(filename, 'wb') as file:  # Changed to binary mode
         
         if counter > 89000:
             counter = 0
-            print(len(data_list))
+            #print(len(data_list))
             spectrogram_data = plot_spectrogram(data_list, 8900)
             amplitude, cumulative_amplitude = plot_cumulative_amplitude(spectrogram_data)
             clustered = find_clustered_ones(amplitude, cumulative_amplitude)
@@ -125,8 +139,13 @@ with open(filename, 'wb') as file:  # Changed to binary mode
 
             symbols = spike_detection.Translate.convert_stream_to_morse(clustered, None, None)
             last_offset = len(spectrogram_data) - clustered[-1][0] if clustered else 0
-            print(symbols)
-            print(spike_detection.Translate.convert_morse_word_to_english(symbols))
+            #print(symbols)
+            char_found = spike_detection.Translate.convert_morse_word_to_english(symbols)
+
+            print(char_found)
+            send_character_to_flask(char_found)
+
+
 
 
     ser.close()
