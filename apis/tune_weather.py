@@ -1,9 +1,12 @@
 import json
 import requests
+from pydub import AudioSegment
+from io import BytesIO
+import simpleaudio as sa
 
 def generate_audio_and_text():
     # Hardcoded values
-    user_prompt = "What is the weather in Cambridge, Massachusetts? Give a FOUR sentence report."
+    user_prompt = "What is the weather in Cambridge, Massachusetts? Give a ONE sentence report."
     tune_api_key = "sk-tune-3AlBdVNL1WlF9KJyd7Ms5asst5S75L0WqLv"
     elevenlabs_api_key = "sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e"
     VOICE_ID = "EXAVITQu4vr4xnSDxMaL"
@@ -47,6 +50,9 @@ def generate_audio_and_text():
     else:
         full_json_output = response.json()
         output = full_json_output['choices'][0]['message']['content']
+        print("\n\nMIDDLE PART:")
+        print(output)
+
     
     # Create a summary for the text
     summarize_prompt = f"Use the following context to make a ONE SENTENCE summary. It is VERY IMPORTANT that it is SHORT: {output}"
@@ -99,18 +105,18 @@ def generate_audio_and_text():
     if response.ok:
         audio_data = response.content
         audio_status = "Audio stream received successfully."
+        
+        # Convert the audio data (bytes) to a playable audio stream
+        audio = AudioSegment.from_file(BytesIO(audio_data), format="mp3")
+        
+        # Play the audio using simpleaudio
+        play_obj = sa.play_buffer(audio.raw_data, num_channels=audio.channels, bytes_per_sample=audio.sample_width, sample_rate=audio.frame_rate)
+        play_obj.wait_done()  # Wait until playback is finished
     else:
         audio_data = None
         audio_status = f"Error in audio generation: {response.text}"
     
     return {
         "long_text": output,
-        "summary": short_output,
-        "audio_data": audio_data,
-        "audio_status": audio_status
+        "summary": short_output
     }
-
-# Example usage
-# result = generate_audio_and_text()
-
-# The audio data can be passed directly to the frontend.
