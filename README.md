@@ -43,7 +43,6 @@ Customer # - Name - Account #
 66e5fef29683f20dd5189bd9 - Kot
 66e5ff1e9683f20dd5189bdb - Pranab
 
-
 ### Whois? Lookup New Acquaintances via TuneHQ
 TuneHQ assistant performs google search on the requested person.
 
@@ -60,3 +59,13 @@ Potentially in the future: use tongue clicks to indicate desired BPM for more cu
 
 Input: "D" for default, or string descriptor of song.
 Output: mp3
+=======
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# DSP / tongue detection
+
+General Observations:
+- the first spike of a morse sequence must be big, but immediately following spikes (just to form a dash, extended dash, etc.) can be smaller, but must still be greater than some threshold
+- a dash is when a valid second spike (valid through its amplitude) occurs within a certain time threshold of a first spike
+
+- a dash will begin with a large spike (greater than 30k), followed by a smaller
