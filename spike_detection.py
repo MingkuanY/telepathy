@@ -65,7 +65,7 @@ class Translate():
     }
 
     @staticmethod
-    def convert_stream_to_morse(stream: List[Tuple[int, int]], prev_morse: Tuple[List[Morse], int]) -> List[Morse]:
+    def convert_stream_to_morse(stream: List[Tuple[int, int]], prev_symbols: List[Morse], last_spike_offset: int) -> List[Morse]:
         """
         Converts a stream of amplitude-time data (represented as integers) into a list of Morse code enums.
         
@@ -77,9 +77,7 @@ class Translate():
 
         prev_symbol, prev_index = None, float('inf')
 
-        if prev_morse:
-            prev_symbols, last_spike_offset = prev_morse # the most recent morse symbol generated, and the distance from the last spike to the interval
-
+        if prev_symbols:
             prev_symbol, prev_index = prev_symbols[-1], -last_spike_offset
             result.append(prev_symbols[-1])
             del prev_symbols[-1]
@@ -111,7 +109,7 @@ class Translate():
                     print("based")
                     prev_symbol, prev_index = result[-1], index
 
-        return result
+        return prev_symbols + result
     
 
     @staticmethod
