@@ -52,6 +52,7 @@ def find_clustered_ones(binary_array, orig_data):
     
     #print(clustered_indices)
     pairs = [(e,orig_data[e]) for e in clustered_indices]
+    print(pairs)
     return pairs
     #return clustered_indices
 
@@ -122,9 +123,10 @@ with open(filename, 'wb') as file:  # Changed to binary mode
             # morse_ouput = morse_like_encoding(find_clustered_ones(amplitude),
             #                     dash_threshold=8900/2,new_char_threshold=8900*2)
 
-            symbols = spike_detection.Translate.convert_stream_to_morse(clustered, symbols, last_offset)
+            symbols = spike_detection.Translate.convert_stream_to_morse(clustered, None, None)
             last_offset = len(spectrogram_data) - clustered[-1][0] if clustered else 0
             print(symbols)
+            print(spike_detection.Translate.convert_morse_word_to_english(symbols))
 
 
     ser.close()

@@ -17,12 +17,12 @@ class Translate():
     """
     
     # CONSTANTS
-    DASH_INDEX_THRESHOLD = 5_000             # index offset between first spike and second spike that if less than is a dash, otherwise two dots.
-    SPACE_INDEX_THRESHOLD = 10_000    # index offset between two spikes representing a space seperating two clusters of morse symbols
+    DASH_INDEX_THRESHOLD = 37       # index offset between first spike and second spike that if less than is a dash, otherwise two dots.
+    SPACE_INDEX_THRESHOLD = 150   # index offset between two spikes representing a space seperating two clusters of morse symbols
 
     INVALID_MAGNITUDE_THRESHOLD = 20_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
 
-    FIRST_SPIKE_MAGNITUDE_THRESHOLD = 8_000    # This is the threshold needed to start a new symbol with a spike
+    FIRST_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed to start a new symbol with a spike
     SECOND_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed by a spike that follows a dot to make it into a dash
 
     MORSE_CODE_DICT = {
@@ -155,8 +155,6 @@ class Translate():
             result.append(character)
         
         return ''.join(result)
-<<<<<<< Updated upstream
-=======
 
 
 # data = [(4, 1913), (47, 1616), (91, 1939), (94, 1901), (108, 2002), (153, 2363), (198, 2270), (287, 1904), (355, 1050), (370, 1894)]
@@ -164,4 +162,3 @@ class Translate():
 # english = Translate.convert_morse_word_to_english(morse)
 # print(morse)
 # print(english)
->>>>>>> Stashed changes
