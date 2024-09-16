@@ -22,7 +22,8 @@ def receive_character():
             return jsonify({"status": "error", "message": "Invalid input"}), 400
         
         character = data["character"]
-        characters += character
+        if character != '?':
+            characters += character
         return jsonify({"status": "success", "characters": characters}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500

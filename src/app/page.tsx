@@ -181,7 +181,7 @@ export default function Home() {
             charStyle && styles.italicized
           )}
         >
-          {characters}
+          i know exactly what you're thinking...
         </p>
       </div>
     </div>

@@ -20,9 +20,9 @@ class Translate():
     DASH_INDEX_THRESHOLD = 37       # index offset between first spike and second spike that if less than is a dash, otherwise two dots.
     SPACE_INDEX_THRESHOLD = 150   # index offset between two spikes representing a space seperating two clusters of morse symbols
 
-    INVALID_MAGNITUDE_THRESHOLD = 24_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
+    INVALID_MAGNITUDE_THRESHOLD = 36_000        # All spikes in a stream that occur after and including a spike that exceeds this threshold will not be considered as morse
 
-    FIRST_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed to start a new symbol with a spike
+    FIRST_SPIKE_MAGNITUDE_THRESHOLD = 8_000    # This is the threshold needed to start a new symbol with a spike
     SECOND_SPIKE_MAGNITUDE_THRESHOLD = 6_000    # This is the threshold needed by a spike that follows a dot to make it into a dash
 
     MORSE_CODE_DICT = {

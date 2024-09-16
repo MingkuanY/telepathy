@@ -8,7 +8,7 @@ def generate_news():
     # Hardcoded values
     user_prompt = "Tell me the top three headlines of breaking news in the US. It should be three VERY SHORT phrases."
     tune_api_key = "sk-tune-3AlBdVNL1WlF9KJyd7Ms5asst5S75L0WqLv"
-    elevenlabs_api_key = "sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e"
+    elevenlabs_api_key = "sk_913a0e036c8701dbc7ec3ef355327022e80541b3be01c5bb"
     VOICE_ID = "EXAVITQu4vr4xnSDxMaL"
     
     # Initialize debug and streaming options
