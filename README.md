@@ -1,5 +1,4 @@
-## API Keys
-ElevenLabs: sk_edd71416ad1a81f444fb057e235b62f3a61dbec817e4089e
+This project won a prize at Hack MIT 2024! Check out the project demo here: https://ballot.hackmit.org/project/ordcc-xfeqn-fgnda-oaxzy
 
 ## Abilities
 ### Communicate Covertly
